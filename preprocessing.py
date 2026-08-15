@@ -6,12 +6,12 @@ here, so the preprocessing stage is a single, self-contained unit.
 
 The stage has two parts:
 
-  * `audit_dataset`  — inspect the raw dataframe and report every quality
+  * `audit_dataset` - inspect the raw dataframe and report every quality
     signal (missing values, duplicates, non-numeric columns, constant
     columns, infinities, class balance, feature-scale spread). It only
     *reports*; it never changes the data.
 
-  * `clean_dataset`  — apply the cleaning actions the audit justifies:
+  * `clean_dataset` - apply the cleaning actions the audit justifies:
     replace infinities, drop duplicate rows and drop constant (zero-variance)
     feature columns. Missing-value imputation and feature scaling are handled
     later by a scikit-learn Pipeline that is fit on the training split only
@@ -92,7 +92,7 @@ def clean_dataset(
         frame = frame.drop_duplicates().reset_index(drop=True)
         actions.append(f"dropped {before - len(frame)} duplicate rows")
 
-    # 3) Drop constant (zero-variance) feature columns — they carry no signal.
+    # 3) Drop constant (zero-variance) feature columns - they carry no signal.
     if audit["constant_columns"]:
         frame = frame.drop(columns=audit["constant_columns"])
         actions.append(f"dropped constant columns: {audit['constant_columns']}")

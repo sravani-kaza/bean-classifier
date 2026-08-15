@@ -21,15 +21,15 @@ sorting is slow and inconsistent.
 
 ## b. Dataset description
 
-- **Source:** UCI Machine Learning Repository — *Dry Bean Dataset* (ID 602). Also
+- **Source:** UCI Machine Learning Repository - *Dry Bean Dataset* (ID 602). Also
   mirrored on Kaggle.
 - **Instances:** 13,611 raw rows (above the required minimum of 500). After removing 68
   exact duplicate rows found during the data-quality audit, **13,543 rows** are used.
 - **Features:** 16 numeric attributes (above the required minimum of 12), all derived
-  from bean images — `Area`, `Perimeter`, `MajorAxisLength`, `MinorAxisLength`,
+  from bean images - `Area`, `Perimeter`, `MajorAxisLength`, `MinorAxisLength`,
   `AspectRatio`, `Eccentricity`, `ConvexArea`, `EquivDiameter`, `Extent`, `Solidity`,
   `Roundness`, `Compactness`, and four shape factors (`ShapeFactor1`–`ShapeFactor4`).
-- **Target:** `Class` — 7 bean varieties (multi-class).
+- **Target:** `Class` - 7 bean varieties (multi-class).
 - **Class balance:** imbalanced, with a majority-to-minority ratio of about 6.8
   (Dermason ≈ 26% of rows, Bombay ≈ 3.8%).
 - **Split & reproducibility:** a 75/25 stratified train/test split with a fixed random
@@ -42,16 +42,16 @@ sorting is slow and inconsistent.
 All checks and cleaning live in a dedicated `preprocessing.py` module, so the
 preprocessing stage is one self-contained unit with two parts:
 
-- **Stage 1 — audit (`audit_dataset`):** inspects the raw data and reports missing
+- **Stage 1 - audit (`audit_dataset`):** inspects the raw data and reports missing
   values, non-numeric feature columns, constant columns, infinities, duplicate rows,
   class balance and feature-scale spread. It only reports; it changes nothing.
-- **Stage 2 — cleaning (`clean_dataset`):** applies only the actions the audit
-  justifies — here, dropping the 68 exact duplicate rows.
+- **Stage 2 - cleaning (`clean_dataset`):** applies only the actions the audit
+  justifies - here, dropping the 68 exact duplicate rows.
 
 **Leakage-safe transform.** Median imputation and `StandardScaler` are bundled with each
 classifier into a single scikit-learn `Pipeline` (`impute → scale → classifier`). It is
 this whole pipeline that `GridSearchCV` tunes, so the imputer and scaler are refit inside
-every cross-validation fold (on that fold's training data only) — no validation/test
+every cross-validation fold (on that fold's training data only) - no validation/test
 information leaks into the transform. The preprocessing travels inside each saved model,
 so the app passes raw uploaded features straight to the chosen model.
 
@@ -103,7 +103,7 @@ Five models are trained on the **same** dataset and split:
 | Naive Bayes               | 0.9022   | 0.9909 | 0.9038    | 0.9022 | 0.9025 | 0.8822 |
 | Random Forest (Ensemble)  | 0.9318   | 0.9934 | 0.9321    | 0.9318 | 0.9317 | 0.9174 |
 
-**Validation metrics** (mean over 3-fold cross-validation on the training data — the
+**Validation metrics** (mean over 3-fold cross-validation on the training data - the
 scores used to select each model's hyperparameters):
 
 | ML Model Name             | Accuracy |  AUC   | Precision | Recall |  F1    |  MCC   |
@@ -124,9 +124,9 @@ generalise well and are not over-fitting.
 | Logistic Regression      | Very strong (test F1 0.930), essentially tied for the top. After standardisation the seven varieties are largely linearly separable, so a simple linear model competes with the ensemble. |
 | Decision Tree            | Weakest of the tree-based models (F1 0.912). A single depth-limited tree keeps over-fitting in check, but on its own it captures less structure than the forest; close validation and test scores confirm it is not over-fitting. |
 | kNN                      | Competitive with the leaders (F1 0.928) once features are scaled, showing that beans of the same variety form fairly tight clusters in the standardised feature space. |
-| Naive Bayes              | Lowest overall (F1 0.903). Its feature-independence assumption is violated here — Area, Perimeter and the axis lengths are strongly correlated — which caps accuracy, although its AUC stays high (0.991). |
+| Naive Bayes              | Lowest overall (F1 0.903). Its feature-independence assumption is violated here - Area, Perimeter and the axis lengths are strongly correlated - which caps accuracy, although its AUC stays high (0.991). |
 | Random Forest (Ensemble) | Best overall (F1 0.932, MCC 0.917). Averaging many decorrelated trees yields the most accurate and most robust predictions, and handles the class imbalance well. |
-| **Overall Winner for your dataset?** | **Random Forest (Ensemble)** — highest test F1 (0.9317) and MCC (0.9174). It edges out Logistic Regression (0.9303) and kNN (0.9283); the top three are effectively tied and the margin is within run-to-run variation, while Decision Tree and Naive Bayes are consistently behind. |
+| **Overall Winner for your dataset?** | **Random Forest (Ensemble)** - highest test F1 (0.9317) and MCC (0.9174). It edges out Logistic Regression (0.9303) and kNN (0.9283); the top three are effectively tied and the margin is within run-to-run variation, while Decision Tree and Naive Bayes are consistently behind. |
 
 ---
 
@@ -156,7 +156,7 @@ project-folder/
 # 1. Install dependencies (do this before training so versions match deployment)
 pip install -r requirements.txt
 
-# 2. Train the models — downloads the dataset once, runs the data-quality audit,
+# 2. Train the models - downloads the dataset once, runs the data-quality audit,
 #    grid-search tuning for all 5 models, saves them + metrics.json, and exports
 #    test_data.csv. The terminal shows live progress per model.
 python train_models.py
@@ -180,10 +180,10 @@ re-run step 2.
 
 ## App features
 
-- **CSV upload** — upload the held-out `test_data.csv`.
-- **Model dropdown** — switch between all five trained models.
-- **Live metrics** — Accuracy, AUC, Precision, Recall, F1, MCC on the uploaded data.
+- **CSV upload** - upload the held-out `test_data.csv`.
+- **Model dropdown** - switch between all five trained models.
+- **Live metrics** - Accuracy, AUC, Precision, Recall, F1, MCC on the uploaded data.
 - **Confusion matrix** and **classification report** for the selected model.
-- **Comparison tab** — test and validation metrics side by side for all five models, a
+- **Comparison tab** - test and validation metrics side by side for all five models, a
   validation-vs-test F1 chart, and the best hyperparameters chosen for each model.
 - Download predictions as a CSV.

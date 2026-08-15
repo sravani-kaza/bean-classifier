@@ -167,7 +167,7 @@ with tab_predict:
             y_true = encoder.transform(data[target_column].astype(str))
             scores = score_predictions(y_true, y_pred, y_proba, class_labels, averaging)
 
-            st.subheader(f"Evaluation metrics — {chosen_model_name}")
+            st.subheader(f"Evaluation metrics - {chosen_model_name}")
             cols = st.columns(6)
             for col, (name, value) in zip(cols, scores.items()):
                 col.metric(name, f"{value:.4f}")
@@ -227,7 +227,7 @@ with tab_compare:
 
     st.subheader("Validation metrics (cross-validation on training data)")
     st.caption(
-        f"Mean over {meta.get('cv_folds', '?')} CV folds — the scores used to "
+        f"Mean over {meta.get('cv_folds', '?')} CV folds - the scores used to "
         "select each model's hyperparameters before touching the test set."
     )
     val_rows = []
@@ -239,7 +239,7 @@ with tab_compare:
     st.dataframe(val_table, width='stretch', hide_index=True)
 
     best = test_table.loc[test_table["F1"].idxmax(), "ML Model"]
-    st.success(f"Overall winner — highest test F1: **{best}**")
+    st.success(f"Overall winner - highest test F1: **{best}**")
 
     st.markdown("**Validation vs test F1 by model**")
     f1_compare = pd.DataFrame({
@@ -256,4 +256,4 @@ with tab_compare:
         )
         for info in meta["models"].values():
             params = info.get("best_params", {})
-            st.markdown(f"**{info['display_name']}** — `{params}`")
+            st.markdown(f"**{info['display_name']}** - `{params}`")
