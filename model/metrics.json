@@ -1,0 +1,167 @@
+{
+  "target_column": "Class",
+  "feature_names": [
+    "Area",
+    "Perimeter",
+    "MajorAxisLength",
+    "MinorAxisLength",
+    "AspectRatio",
+    "Eccentricity",
+    "ConvexArea",
+    "EquivDiameter",
+    "Extent",
+    "Solidity",
+    "Roundness",
+    "Compactness",
+    "ShapeFactor1",
+    "ShapeFactor2",
+    "ShapeFactor3",
+    "ShapeFactor4"
+  ],
+  "class_names": [
+    "BARBUNYA",
+    "BOMBAY",
+    "CALI",
+    "DERMASON",
+    "HOROZ",
+    "SEKER",
+    "SIRA"
+  ],
+  "averaging": "weighted",
+  "random_seed": 1,
+  "cv_folds": 3,
+  "tuning_score": "f1_weighted",
+  "data_audit": {
+    "rows": 13611,
+    "feature_columns": 16,
+    "missing_values": 0,
+    "duplicate_rows": 68,
+    "non_numeric_features": [],
+    "constant_columns": [],
+    "infinite_values": 0,
+    "n_classes": 7,
+    "imbalance_ratio": 6.793,
+    "class_counts": {
+      "DERMASON": 3546,
+      "SIRA": 2636,
+      "SEKER": 2027,
+      "HOROZ": 1928,
+      "CALI": 1630,
+      "BARBUNYA": 1322,
+      "BOMBAY": 522
+    }
+  },
+  "cleaning_actions": [
+    "dropped 68 duplicate rows"
+  ],
+  "duplicates_removed": true,
+  "models": {
+    "logistic_regression": {
+      "display_name": "Logistic Regression",
+      "best_params": {
+        "C": 10.0,
+        "solver": "lbfgs"
+      },
+      "validation": {
+        "Accuracy": 0.9225,
+        "AUC": 0.9933,
+        "Precision": 0.9232,
+        "Recall": 0.9225,
+        "F1": 0.9227,
+        "MCC": 0.9063
+      },
+      "Accuracy": 0.9303,
+      "AUC": 0.9938,
+      "Precision": 0.9305,
+      "Recall": 0.9303,
+      "F1": 0.9303,
+      "MCC": 0.9157
+    },
+    "decision_tree": {
+      "display_name": "Decision Tree",
+      "best_params": {
+        "criterion": "entropy",
+        "max_depth": 12,
+        "min_samples_leaf": 10
+      },
+      "validation": {
+        "Accuracy": 0.9064,
+        "AUC": 0.9768,
+        "Precision": 0.9065,
+        "Recall": 0.9064,
+        "F1": 0.9062,
+        "MCC": 0.8868
+      },
+      "Accuracy": 0.9126,
+      "AUC": 0.9798,
+      "Precision": 0.9127,
+      "Recall": 0.9126,
+      "F1": 0.9123,
+      "MCC": 0.8943
+    },
+    "knn": {
+      "display_name": "kNN",
+      "best_params": {
+        "n_neighbors": 21,
+        "p": 2,
+        "weights": "uniform"
+      },
+      "validation": {
+        "Accuracy": 0.9229,
+        "AUC": 0.991,
+        "Precision": 0.9238,
+        "Recall": 0.9229,
+        "F1": 0.9231,
+        "MCC": 0.9068
+      },
+      "Accuracy": 0.9282,
+      "AUC": 0.9912,
+      "Precision": 0.9291,
+      "Recall": 0.9282,
+      "F1": 0.9283,
+      "MCC": 0.9132
+    },
+    "naive_bayes": {
+      "display_name": "Naive Bayes",
+      "best_params": {
+        "var_smoothing": 1e-11
+      },
+      "validation": {
+        "Accuracy": 0.8935,
+        "AUC": 0.9897,
+        "Precision": 0.8948,
+        "Recall": 0.8935,
+        "F1": 0.8936,
+        "MCC": 0.8716
+      },
+      "Accuracy": 0.9022,
+      "AUC": 0.9909,
+      "Precision": 0.9038,
+      "Recall": 0.9022,
+      "F1": 0.9025,
+      "MCC": 0.8822
+    },
+    "random_forest": {
+      "display_name": "Random Forest (Ensemble)",
+      "best_params": {
+        "max_depth": null,
+        "min_samples_leaf": 1,
+        "n_estimators": 400
+      },
+      "validation": {
+        "Accuracy": 0.9207,
+        "AUC": 0.9925,
+        "Precision": 0.921,
+        "Recall": 0.9207,
+        "F1": 0.9207,
+        "MCC": 0.9041
+      },
+      "Accuracy": 0.9315,
+      "AUC": 0.9937,
+      "Precision": 0.9318,
+      "Recall": 0.9315,
+      "F1": 0.9315,
+      "MCC": 0.9171
+    }
+  }
+}
